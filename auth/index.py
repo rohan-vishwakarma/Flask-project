@@ -5,12 +5,12 @@ from werkzeug.security import generate_password_hash
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
+    Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-auth_bp = Blueprint('auth', __name__)
+index_bp = Blueprint('index', __name__)
 
-@auth_bp.route('/token', methods=('GET', 'POST'))
+@index_bp.route('/', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -33,4 +33,4 @@ def register():
 
         flash(error)
 
-    return jsonify({"value":"hello Token"})
+    return "hello blueprint"
