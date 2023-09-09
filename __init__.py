@@ -2,7 +2,9 @@ import os
 
 from flask import Flask
 from flask_restful import Api
-from .auth import *
+from flask_sqlalchemy import SQLAlchemy
+from .models import db
+
 
 app = None
 api = None
@@ -14,6 +16,15 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.init_app(app)
+    # Create the database tables
+    with app.app_context():
+        db.create_all()
+    
+
 
 
     
@@ -31,16 +42,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    # @app.route('/hello')
-    # def hello():
-    #     return 'Hello, World!'
-    # from .auth.index import index_bp
-    # from .auth.auth import auth_bp
-    from .auth.api import TodoSimple
-    # app.register_blueprint(index_bp,  url_prefix='/')
-    # app.register_blueprint(auth_bp,  url_prefix='/auth')
-    api.add_resource(TodoSimple, '/<string:todo_id>')
+    from .EmployeeCrud.views import employee_bp
+    
+    app.register_blueprint(employee_bp)
+    
     
 
     return app
