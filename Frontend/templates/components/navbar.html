@@ -1,2 +1,47 @@
-
-<h1>this is a navbar</h1>
+<div class="navbar">
+    <div class="nav">
+        <div class="logo" style="display: -webkit-inline-box;">
+            <h5>ClearFirst</h5>
+        </div>
+        <ul class="unordered">
+            <li class="list"><a class="la" href="home">Home</a></li>
+            <li class="list"><a class="la" href="about/">About</a></li>
+            <li class="list"><a class="la" href="Sing">Signin</a></li>
+            <li class="list"><a class="la" href="login">Login</a></li>
+        </ul>
+    </div>
+</div>
+<style>
+    .navbar .nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-between; /* Aligns the logo to the left and the unordered list to the right */
+        align-items: center; /* Vertically centers the content */
+        background-color: aliceblue;
+        margin: 0;
+        padding: 0;
+        font-size: 19px;
+        padding: 10px 20px; /* Add padding for better spacing */
+    }
+    
+    .navbar .nav .logo {
+        display: inline-block;
+    }
+    
+    .navbar .nav .unordered {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .navbar .nav .unordered .list {
+        display: inline;
+        margin-right: 10px; /* Adjust the right margin as needed */
+    }
+    
+    .navbar .nav .unordered .list a {
+        color: black;
+        font-weight: 100;
+    }
+    
+</style>

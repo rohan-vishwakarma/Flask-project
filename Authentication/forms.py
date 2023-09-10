@@ -8,9 +8,9 @@ from .models import User
 
 class UserForm(FlaskForm):
 
-    username = StringField('username', validators=[DataRequired()], name='username')
-    email = EmailField('email', validators=[DataRequired()], name='email')
-    password = PasswordField('password', validators=[DataRequired()], name='password')
+    username = StringField('username', name='username')
+    email = EmailField('email',name='email')
+    password = PasswordField('password', name='password')
      
 
     # def __init__(self, username, email, password):
