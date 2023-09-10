@@ -1,8 +1,11 @@
 from flask_restful import Resource
-from flask import  Blueprint, jsonify
+from flask import  Blueprint, jsonify, render_template
 from flask import request
 from .models import User
 from .models import db
+
+from .forms import UserForm
+
 
 auth_bp = Blueprint('authentication' , __name__, url_prefix='/authentication')
 
@@ -23,6 +26,7 @@ def index():
 @auth_bp.route('/add', methods = ['POST', 'GET'])
 def addUser():
     try:
+        form = UserForm()
         if request.method == "POST":
             username = request.form['username']
             email = request.form['username']
@@ -39,10 +43,8 @@ def addUser():
                 else:
                     if getdata is not None:
                         return jsonify({'message' : f"{username} already exist"})
-            return jsonify({'messgae': f"user {username} created successufully"})        
+            return jsonify({'message': f"user {username} created successufully"})            
             
-        else:
-            if request.method == 'GET':
-                return jsonify({"message" : "get method"})
+        return render_template('signup.html', form=form)
     except Exception as e:
         return f"Exception occured {str(e)}"

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    {% include 'components/bootstrap.html' %}
+</head>
+
+<body>
+    <h2> {% include 'components/navbar.html' %}</h2>
+
+
+    {% block content %}
+    <div class="container-fluid">
+        <form method="POST" action="/">
+            {{ form.csrf_token }}
+            <div class="row ">
+                <div class="col-sm-8">
+
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group col-sm-12">
+                        <label for="username" class="col-sm-1 col-form-label">username</label>
+                        <div class="col-sm-12">
+                            {{ form.username(size=20, class_='form-control') }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                        <label for="username" class="col-sm-1 col-form-label">email</label>
+                        <div class="col-sm-12 ">
+                            {{ form.email(size=20, class_='form-control') }}
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="username" class="col-sm-1 col-form-label">password</label>
+                        <div class="col-sm-12 ">
+                            {{ form.password(size=20, class_='form-control') }}
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class="col-sm-12">
+                            <input class="btn btn-primary" type="submit" value="Go">
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+    {% endblock %}
+
+</body>
+
+</html>

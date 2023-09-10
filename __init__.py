@@ -4,6 +4,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_migrate import Migrate
 from flask_mysqldb import MySQL
+from jinja2 import ChoiceLoader, FileSystemLoader
 
 from .Authentication.models import db
 
@@ -13,6 +14,11 @@ migrate = Migrate()
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    
+    templates = ['Frontend/templates', 'layout/templates']
+    template_loader = ChoiceLoader([FileSystemLoader(template) for template in templates])
+    app.jinja_loader = template_loader
+
     api = Api(app)
     app.config.from_mapping(
         SECRET_KEY='dev',
