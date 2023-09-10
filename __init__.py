@@ -2,12 +2,14 @@ import os
 
 from flask import Flask
 from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
-from .models import db
+from flask_migrate import Migrate
+from flask_mysqldb import MySQL
+
+from .Authentication.models import db
 
 
-app = None
-api = None
+migrate = Migrate()
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -16,18 +18,19 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Rohan84.20@localhost/flaskdb'
+
+    app.config['SQLALCHEMY_BINDS'] = {
+    'flaskdb': 'mysql://root:Rohan84.20@localhost/flaskdb',
+    }
+
+
+    mysql = MySQL(app)
 
     db.init_app(app)
+    migrate.init_app(app, db)
     # Create the database tables
-    with app.app_context():
-        db.create_all()
-    
 
-
-
-    
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -43,9 +46,9 @@ def create_app(test_config=None):
         pass
 
     from .EmployeeCrud.views import employee_bp
+    from .Authentication.views import auth_bp
     
     app.register_blueprint(employee_bp)
-    
-    
+    app.register_blueprint(auth_bp)
 
     return app

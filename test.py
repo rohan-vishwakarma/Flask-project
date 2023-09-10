@@ -1,14 +1,3 @@
-my_dict = {
-  "1": {
-    "name": "priya"
-  },
-  "2": {
-    "name": "priya"
-  },
-  "3": {
-    "name": "priya"
-  }
-}
+import sqlite3
 
-if "priya" in my_dict.values():
-    print("yes")
+print(sqlite3.sqlite_version)

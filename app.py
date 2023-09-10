@@ -1,5 +1,5 @@
 from . import create_app
-from .models import db
+from .Authentication.models import db
 
 app = create_app()
 

@@ -5,8 +5,8 @@ from flask import request, Blueprint, jsonify
 employee_bp = Blueprint('employee' , __name__, url_prefix='/')
 
 @employee_bp.route('/')
-
 def index():
+
     return "this is a rest api"
 
 data = {}
