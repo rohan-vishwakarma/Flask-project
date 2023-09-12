@@ -4,6 +4,8 @@ from flask import request
 from .models import User
 from .models import db
 
+from sqlalchemy.exc import SQLAlchemyError
+
 from .forms import UserForm
 
 
@@ -23,28 +25,43 @@ def index():
     return "this is an authentication page"
 
 
-@auth_bp.route('/add', methods = ['POST', 'GET'])
+@auth_bp.route('/add', methods = ['POST'])
 def addUser():
     try:
-        form = UserForm()
         if request.method == "POST":
-            username = request.form['username']
-            email = request.form['username']
-            password = request.form['password']
+            username = request.form.get('username')
+            email = request.form.get('email')
+            password = request.form.get('password')
             getdata = None
-            if username or email or password is not None:
+            if username is not None and email is not None and password is not None:
                 getdata = User.query.filter_by(username=username).first()
-                if getdata is None:
+                if bool(getdata) is False:
                     user_obj = User(username=username, email=email, password=password)
                     execute = db.session.add(user_obj)
                     save = db.session.commit()
                     if save:
                         return f"{username} created successfully"
                 else:
-                    if getdata is not None:
+                    if bool(getdata) is True:
                         return jsonify({'message' : f"{username} already exist"})
-            return jsonify({'message': f"user {username} created successufully"})            
+            else:
+                validation = {}
+                if username is None:
+                    validation['username_error'] = f" username cannot be empty"
+                
+                if email is None:
+                    validation['email_error'] = f" email cannot be empty"
+                
+                if password is None:
+                    validation['password_error'] = f" password cannot be empty"
+
+                return jsonify(validation), 400
             
-        return render_template('signup.html', form=form)
+            return None       
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return f"Database Exception occurred: {str(e)}", 500 
+
     except Exception as e:
         return f"Exception occured {str(e)}"
