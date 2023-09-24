@@ -24,7 +24,6 @@ def index():
     
     return "this is an authentication page"
 
-
 @auth_bp.route('/add', methods = ['POST'])
 def addUser():
     try:
@@ -39,29 +38,38 @@ def addUser():
                     user_obj = User(username=username, email=email, password=password)
                     execute = db.session.add(user_obj)
                     save = db.session.commit()
-                    if save:
-                        return f"{username} created successfully"
+                    return jsonify({'message' :f"{username} created successfully"}), 200
                 else:
                     if bool(getdata) is True:
-                        return jsonify({'message' : f"{username} already exist"})
+                        return jsonify({'message' : f"{username} already exist"}), 400
             else:
                 validation = {}
                 if username is None:
-                    validation['username_error'] = f" username cannot be empty"
+                    validation['username_error'] = f" username cannot be empty", 400
                 
                 if email is None:
-                    validation['email_error'] = f" email cannot be empty"
+                    validation['email_error'] = f" email cannot be empty", 400
                 
                 if password is None:
-                    validation['password_error'] = f" password cannot be empty"
+                    validation['password_error'] = f" password cannot be empty", 400
 
                 return jsonify(validation), 400
-            
             return None       
-
     except SQLAlchemyError as e:
         db.session.rollback()
-        return f"Database Exception occurred: {str(e)}", 500 
+        return jsonify(f"Database Exception occurred: {str(e)}"), 500 
 
     except Exception as e:
-        return f"Exception occured {str(e)}"
+        return jsonify({'message' : f"Exception occured {str(e)}"}), 500
+
+
+
+
+# @auth_bp.route('/delete', methods = ['POST'])
+# def deleteUser():
+#     try:
+
+
+#     except Exception as e:
+#         print(f"Exception occured {e}")
+

@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up</title>
-    {% include 'components/bootstrap.html' %}
 
     <script src="{{ url_for('static', filename='/javascript/register.js') }}"></script>
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/bootstrap.min.css') }}">
+
 </head>
 
 <body>
@@ -16,8 +16,26 @@
 
 
     {% block content %}
+
+
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="container">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <ul class=flashes>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% else %}
+    {% endif %}
+    {% endwith %}
+
     <div class="container-fluid">
-        <form method="POST" name="form" >
+        <form class="needs-validation" method="POST" name="form" novalidate>
             {{ form.csrf_token }}
             <div class="row ">
                 <div class="col-sm-8" style="margin-left: 5%;">
@@ -27,25 +45,58 @@
                     <div class="form-group col-sm-12">
                         <label for="username" class="col-sm-1 col-form-label">username</label>
                         <div class="col-sm-12">
-                            {{ form.username(size=20, class_='form-control') }}
+                            {{ form.username(size=20, class_='form-control' ~ (' is-invalid' if form.username.errors) ,required=True) }}
+                            {% if form.username.errors %}
+                            {% for error in form.username.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <div class="valid-feedback">
+                                
+                            </div>
+                            {% endif %}
                         </div>
-                    </div>
+                    </div>ss
 
                     <div class="form-group col-sm-12">
                         <label for="username" class="col-sm-1 col-form-label">email</label>
                         <div class="col-sm-12 ">
-                            {{ form.email(size=20, class_='form-control') }}
+                            {{ form.email(size=20, class_='form-control'  ~ (' is-invalid' if form.username.errors) ,required=True) }}
+                            {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <div class="valid-feedback">
+                                
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="form-group col-sm-12">
                         <label for="username" class="col-sm-1 col-form-label">password</label>
                         <div class="col-sm-12 ">
-                            {{ form.password(size=20, class_='form-control') }}
+                            {{ form.password(size=20, class_='form-control'  ~ (' is-invalid' if form.username.errors) ,required=True) }}
+                            {% if form.password.errors %}
+                            {% for error in form.password.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <div class="valid-feedback">
+                                
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="form-group col-sm-12">
                         <div class="col-sm-12">
-                            <input class="btn btn-primary"  id="submit" type="submit" value="Go">
+                            <input class="btn btn-primary" id="submit" type="submit" value="Go">
                         </div>
                     </div>
 
@@ -55,6 +106,28 @@
             </div>
         </form>
     </div>
+
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
     {% endblock %}
 
 </body>

@@ -9,6 +9,6 @@ with app.app_context():
 
 if __name__ =="__main__":
     try:
-        app.run(debug=True)
+        app.run(host='0.0.0.0', port=5000, debug=True)
     except Exception as e:
         print(f"An error occured {str(e)}")

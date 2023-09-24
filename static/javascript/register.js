@@ -1,16 +1,32 @@
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("hello");
-    const a = document.getElementById('submit').addEventListener('click', (e)=>{
-        e.preventDefault()
-        console.log("click");
-        getdata()
-        async function getdata() {
-            const response = await fetch("/authentication/add");
-            const movies = await response.json();
-            console.log(movies);
-        }
-          
+// document.addEventListener('DOMContentLoaded', function () {
+
+
+//     const form = document.forms.namedItem("form");
+//     form.addEventListener(
+//       "submit", 
+//       async (event) =>{
+//         event.preventDefault(); 
+
+//             const output = document.querySelector("#output");
+//             const formData = new FormData(form);
         
-    })
-  });
-  
+
+//                 try {
+//                     const response = await fetch("authentication/add", {
+//                         method: "POST",
+//                         body: formData,
+//                     });
+
+//                     const data = response.json();
+//                     console.log(data)
+
+//                 } catch (error) {
+//                     output.innerHTML = "An excd.";
+//                 }
+
+//         },
+//         false,
+//     );
+    
+
+// });

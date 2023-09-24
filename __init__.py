@@ -53,8 +53,10 @@ def create_app(test_config=None):
 
     from .EmployeeCrud.views import employee_bp
     from .Authentication.views import auth_bp
+    from .Authentication.frontend import front_bp
     
     app.register_blueprint(employee_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(front_bp)
 
     return app
